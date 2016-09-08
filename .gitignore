@@ -1,8 +1,2 @@
-#*
-.#*
-*~
-_site
+*.iml
 .idea
-*.sw[op]
-.project
-sample-pages
