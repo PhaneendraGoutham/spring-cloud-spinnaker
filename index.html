@@ -1,938 +1,101 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 1.5.3">
-<meta name="author" content="Greg Turnquist">
-<title>Spring Cloud Spinnaker Reference Guide</title>
-<style>
-body {
-	background: url("images/background.png") no-repeat center top;
-}
+---
+# The name of your project
+title: Spring Cloud Spinnaker
 
+badges:
 
-/*
-   code highlight CSS resemblign the Eclipse IDE default color schema
-   @author Costin Leau
-*/
+  # Specify your project's twitter handle, if any. Delete if none.
+  twitter: SpringData
 
-.hl-keyword {
-	color: #7F0055;
-	font-weight: bold;
-}
+  # Customize your project's badges. Delete any entries that do not apply.
+  custom:
+    - name: Source (GitHub)
+      url:  https://github.com/spring-cloud/spring-cloud-spinnaker
+      icon: github
 
-.hl-comment {
-	color: #3F5F5F;
-	font-style: italic;
-}
+    - name: Issues (GitHub)
+      url:  https://github.com/spring-cloud/spring-cloud-spinnaker/issues
+      icon: tracking
 
-.hl-multiline-comment {
-	color: #3F5FBF;
-	font-style: italic;
-}
+    - name: CI (Jenkins)
+      url:  https://jenkins.spring.io/view/All/job/spring-cloud-spinnaker/
+      icon: ci
 
-.hl-tag {
-	color: #3F7F7F;
-}
+    - name: CI (CircleCI)
+      url:  https://circleci.com/gh/spring-cloud/spring-cloud-spinnaker/
+      icon: ci
 
-.hl-attribute {
-	color: #7F007F;
-}
+    - name: StackOverflow
+      url:  http://stackoverflow.com/questions/tagged/spinnaker
+      icon: stackoverflow
 
-.hl-value {
-	color: #2A00FF;
-}
+---
+<!DOCTYPE HTML>
+<html lang="en-US">
 
-.hl-string {
-	color: #2A00FF;
-}
+<!-- Specify the parent of this project (or delete if none) to influence the rendering of the breadcrumb -->
 
-html {
-	padding: 0pt;
-	margin: 0pt;
-}
+{% capture billboard_description %}
 
-body {
-	color: #333333;
-	margin: 15px 30px;
-	font-family: Helvetica, Arial, Freesans, Clean, Sans-serif;
-	line-height: 1.6;
-	-webkit-font-smoothing: antialiased;
-}
+**PROJECT DESCRIPTION** Corpus callosum,
+[the carbon](#) in our apple pies a mote of dust suspended in a
+sunbeam. Muse about! Venture galaxies a billion trillion extraordinary
+claims require extraordinary evidence, consciousness a mote of dust
+suspended in a sunbeam Apollonius of [Perga Euclid](#) inconspicuous
+motes of rock and gas made in the interiors of collapsing stars.
 
-code {
-	font-size: 16px;
-	font-family: Consolas, "Liberation Mono", Courier, monospace;
-}
+{% endcapture %}
 
-:not(a)>code {
-	color: #6D180B;
-}
+{% capture main_content %}
 
-:not(pre)>code {
-	background-color: #F2F2F2;
-	border: 1px solid #CCCCCC;
-	border-radius: 4px;
-	padding: 1px 3px 0;
-	text-shadow: none;
-	white-space: nowrap;
-}
+**INTRODUCTORY PARAGRAPHS** Birth, a very small stage in a vast cosmic
+arena extraordinary claims require extraordinary evidence! Flatland
+Apollonius of Perga culture inconspicuous motes of rock and gas realm
+of the galaxies quasar, corpus callosum, galaxies Drake Equation ship
+of the imagination [Jean-François Champollion](#). Galaxies Hypatia!
+Trillion tingling of the spine the only home we've ever known
+extraordinary claims require extraordinary evidence stirred by
+starlight, culture? Flatland Tunguska event finite but unbounded
+corpus callosum!
 
-body>*:first-child {
-	margin-top: 0 !important;
-}
+## Features
 
-div {
-	margin: 0pt;
-}
+* Feature 1
+* [Feature 2](#)
+* Feature 3
+* Feature 4
+* ...
 
-hr {
-	border: 1px solid #CCCCCC;
-	background: #CCCCCC;
-}
+<span id="quick-start"></span>
 
-h1,h2,h3,h4,h5,h6 {
-	color: #000000;
-	cursor: text;
-	font-weight: bold;
-	margin: 30px 0 10px;
-	padding: 0;
-}
+## Quick Start
 
-h1,h2,h3 {
-	margin: 40px 0 10px;
-}
+{% include download_widget.md %}
 
-h1 {
-	margin: 70px 0 30px;
-	padding-top: 20px;
-}
+{% endcapture %}
 
-div.part h1 {
-	border-top: 1px dotted #CCCCCC;
-}
+{% capture related_resources %}
 
-h1,h1 code {
-	font-size: 32px;
-}
+### Sample Projects
 
-h2,h2 code {
-	font-size: 24px;
-}
+* [Project Name 1](#)
+* [Project name 2](#)
+* [Project name nth](#)
 
-h3,h3 code {
-	font-size: 20px;
-}
+### Getting Started Guides
 
-h4,h1 code,h5,h5 code,h6,h6 code {
-	font-size: 18px;
-}
+* [GSG 1]({{site.main_site_url}}/guides/gs/rest-service)
+* [GSG 2]({{site.main_site_url}}/guides/gs/other-guide-2)
+* [GSG n]({{site.main_site_url}}/guides/gs/other-guide-3)
 
-div.book,div.chapter,div.appendix,div.part,div.preface {
-	min-width: 300px;
-	max-width: 1200px;
-	margin: 0 auto;
-}
+### Tutorials
 
-p.releaseinfo {
-	font-weight: bold;
-	margin-bottom: 40px;
-	margin-top: 40px;
-}
+* [Tutorial 1]({{site.main_site_url}}/guides/tutorials/rest)
+* [Tutorial 2]({{site.main_site_url}}/guides/tutorials/other-2)
+* [Tutorial n]({{site.main_site_url}}/guides/tutorials/other-3)
 
-div.authorgroup {
-	line-height: 1;
-}
+{% endcapture %}
 
-p.copyright {
-	line-height: 1;
-	margin-bottom: -5px;
-}
 
-.legalnotice p {
-	font-style: italic;
-	font-size: 14px;
-	line-height: 1;
-}
-
-div.titlepage+p,div.titlepage+p {
-	margin-top: 0;
-}
-
-pre {
-	line-height: 1.0;
-	color: black;
-}
-
-a {
-	color: #4183C4;
-	text-decoration: none;
-}
-
-p {
-	margin: 15px 0;
-	text-align: left;
-}
-
-ul,ol {
-	padding-left: 30px;
-}
-
-li p {
-	margin: 0;
-}
-
-div.table {
-	margin: 1em;
-	padding: 0.5em;
-	text-align: center;
-}
-
-div.table table,div.informaltable table {
-	display: table;
-	width: 100%;
-}
-
-div.table td {
-	padding-left: 7px;
-	padding-right: 7px;
-}
-
-.sidebar {
-	line-height: 1.4;
-	padding: 0 20px;
-	background-color: #F8F8F8;
-	border: 1px solid #CCCCCC;
-	border-radius: 3px 3px 3px 3px;
-}
-
-.sidebar p.title {
-	color: #6D180B;
-}
-
-pre.programlisting,pre.screen {
-	font-size: 15px;
-	padding: 6px 10px;
-	background-color: #F8F8F8;
-	border: 1px solid #CCCCCC;
-	border-radius: 3px 3px 3px 3px;
-	clear: both;
-	overflow: auto;
-	line-height: 1.4;
-	font-family: Consolas, "Liberation Mono", Courier, monospace;
-}
-
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-	border: 1px solid #DDDDDD !important;
-	border-radius: 4px !important;
-	border-collapse: separate !important;
-	line-height: 1.6;
-}
-
-table thead {
-	background: #F5F5F5;
-}
-
-table tr {
-	border: none;
-	border-bottom: none;
-}
-
-table th {
-	font-weight: bold;
-}
-
-table th,table td {
-	border: none !important;
-	padding: 6px 13px;
-}
-
-table tr:nth-child(2n) {
-	background-color: #F8F8F8;
-}
-
-td p {
-	margin: 0 0 15px 0;
-}
-
-div.table-contents td p {
-	margin: 0;
-}
-
-div.important *,div.note *,div.tip *,div.warning *,div.navheader *,div.navfooter *,div.calloutlist *
-{
-	border: none !important;
-	background: none !important;
-	margin: 0;
-}
-
-div.important p,div.note p,div.tip p,div.warning p {
-	color: #6F6F6F;
-	line-height: 1.6;
-}
-
-div.important code,div.note code,div.tip code,div.warning code {
-	background-color: #F2F2F2 !important;
-	border: 1px solid #CCCCCC !important;
-	border-radius: 4px !important;
-	padding: 1px 3px 0 !important;
-	text-shadow: none !important;
-	white-space: nowrap !important;
-}
-
-.note th,.tip th,.warning th {
-	display: none;
-}
-
-.note tr:first-child td,.tip tr:first-child td,.warning tr:first-child td
-{
-	border-right: 1px solid #CCCCCC !important;
-	padding-top: 10px;
-}
-
-div.calloutlist p,div.calloutlist td {
-	padding: 0;
-	margin: 0;
-}
-
-div.calloutlist>table>tbody>tr>td:first-child {
-	padding-left: 10px;
-	width: 30px !important;
-}
-
-div.important,div.note,div.tip,div.warning {
-	margin-left: 0px !important;
-	margin-right: 20px !important;
-	margin-top: 20px;
-	margin-bottom: 20px;
-	padding-top: 10px;
-	padding-bottom: 10px;
-}
-
-div.toc {
-	line-height: 1.2;
-}
-
-dl,dt {
-	margin-top: 1px;
-	margin-bottom: 0;
-}
-
-div.toc>dl>dt {
-	font-size: 32px;
-	font-weight: bold;
-	margin: 30px 0 10px 0;
-	display: block;
-}
-
-div.toc>dl>dd>dl>dt {
-	font-size: 24px;
-	font-weight: bold;
-	margin: 20px 0 10px 0;
-	display: block;
-}
-
-div.toc>dl>dd>dl>dd>dl>dt {
-	font-weight: bold;
-	font-size: 20px;
-	margin: 10px 0 0 0;
-}
-
-tbody.footnotes * {
-	border: none !important;
-}
-
-div.footnote p {
-	margin: 0;
-	line-height: 1;
-}
-
-div.footnote p sup {
-	margin-right: 6px;
-	vertical-align: middle;
-}
-
-div.navheader {
-	border-bottom: 1px solid #CCCCCC;
-}
-
-div.navfooter {
-	border-top: 1px solid #CCCCCC;
-}
-
-.title {
-	margin-left: -1em;
-	padding-left: 1em;
-}
-
-.title>a {
-	position: absolute;
-	visibility: hidden;
-	display: block;
-	font-size: 0.85em;
-	margin-top: 0.05em;
-	margin-left: -1em;
-	vertical-align: text-top;
-	color: black;
-}
-
-.title>a:before {
-	content: "\00A7";
-}
-
-.title:hover>a,.title>a:hover,.title:hover>a:hover {
-	visibility: visible;
-}
-
-.title:focus>a,.title>a:focus,.title:focus>a:focus {
-	outline: 0;
-}
-
-/**
- * Custom rules
- */
-
-.imageblock.bordered img {
-	border: 1px solid black;
-}
-</style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
-</head>
-<body class="book">
-<div id="header">
-<h1>Spring Cloud Spinnaker Reference Guide</h1>
-<div class="details">
-<span id="author" class="author">Greg Turnquist</span><br>
-</div>
-</div>
-<div id="content">
-<div id="preamble">
-<div class="sectionbody">
-<div class="paragraph">
-<p><strong>1.0.0.BUILD-SNAPSHOT</strong></p>
-</div>
-<div class="paragraph">
-<p>Copyright &#169; 2016</p>
-</div>
-<div class="paragraph">
-<p><em>Copies of this document may be made for your own use and for distribution to others, provided that you do not charge any
-fee for such copies and further provided that each copy contains this Copyright Notice, whether distributed in print or electronically.</em></p>
-</div>
-<hr>
-<div id="toc" class="toc">
-<div id="toctitle" class="title">Table of Contents</div>
-<ul class="sectlevel0">
-<li><a href="#sc-spinnaker-documentation">Spring Cloud Spinnaker Documentation</a>
-<ul class="sectlevel1">
-<li><a href="#sc-spinnaker-documentation-about">About the documentation</a></li>
-</ul>
-</li>
-<li><a href="#getting-started">Getting started</a>
-<ul class="sectlevel1">
-<li><a href="#getting-started-introducing-spring-cloud-spinnaker">Introducing Spring Cloud Spinnaker</a></li>
-<li><a href="#_before_installing_spinnaker">Before installing Spinnaker</a></li>
-<li><a href="#_installing_spinnaker">Installing Spinnaker</a>
-<ul class="sectlevel2">
-<li><a href="#_settings">Settings</a></li>
-<li><a href="#_deploying">Deploying</a></li>
-</ul>
-</li>
-<li><a href="#_next_steps">Next Steps</a></li>
-</ul>
-</li>
-<li><a href="#debugging-installation">Debugging Your Installation</a>
-<ul class="sectlevel1">
-<li><a href="#_logs_logs_and_more_logs">Logs, logs, and more logs</a></li>
-<li><a href="#_environment_settings">Environment settings</a></li>
-<li><a href="#_manually_deploying_spinnaker">Manually deploying Spinnaker</a></li>
-</ul>
-</li>
-<li><a href="#appendix">Appendices</a></li>
-</ul>
-</div>
-</div>
-</div>
-<h1 id="sc-spinnaker-documentation" class="sect0">Spring Cloud Spinnaker Documentation</h1>
-<div class="openblock partintro">
-<div class="content">
-<div class="paragraph">
-<p>This section provides a brief overview of Spring Cloud Spinnaker reference documentation. Think of
-it as map for the rest of the document. You can read this reference guide in a linear
-fashion, or you can skip sections if something doesn&#8217;t interest you.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="sc-spinnaker-documentation-about">About the documentation</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>The Spring Cloud Spinnaker reference guide is available as <a href="http://docs.spring.io/spring-cloud-spinnaker/docs/1.0.0.BUILD-SNAPSHOT/reference/html">html</a> and
-<a href="http://docs.spring.io/spring-cloud-spinnaker/docs/1.0.0.BUILD-SNAPSHOT/reference/pdf/spring-cloud-spinnaker-reference.pdf">pdf</a> documents. The latest copy
-is available at <a href="http://docs.spring.io/spring-cloud-spinnaker/docs/current/reference" class="bare">docs.spring.io/spring-cloud-spinnaker/docs/current/reference</a>.</p>
-</div>
-<div class="paragraph">
-<p>Copies of this document may be made for your own use and for
-distribution to others, provided that you do not charge any fee for such copies and
-further provided that each copy contains this Copyright Notice, whether distributed in
-print or electronically.</p>
-</div>
-</div>
-</div>
-<h1 id="getting-started" class="sect0">Getting started</h1>
-<div class="openblock partintro">
-<div class="content">
-<div class="paragraph">
-<p>Interested in deploying applications to the cloud with complex rollouts, sophisticated notifications (Slack, Email, etc.)?
-Then this document is for you. It will coach you on using this application to install Spinnaker.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="getting-started-introducing-spring-cloud-spinnaker">Introducing Spring Cloud Spinnaker</h2>
-<div class="sectionbody">
-<div class="imageblock" style="float: right">
-<div class="content">
-<img src="https://www.cloudfoundry.org/wp-content/uploads/2015/09/cf-cert-landscape-color.svg" alt="cf cert landscape color" width="300">
-</div>
-</div>
-<div class="paragraph">
-<p><a href="http://spinnaker.io">Spinnaker</a> is a multi-cloud continuous deployment platform released by Netflix with contributions
-from Pivotal, Google, Microsoft and others. <strong>Spring Cloud Spinnaker</strong> is an installation tool meant to gather all the
-necessary information and use it to deploy Spinnaker&#8217;s microservices into a
-<a href="https://www.cloudfoundry.org/use/cloud-foundry-certified/">certified Cloud Foundry installation</a>.</p>
-</div>
-<div class="paragraph">
-<p>It installs the follow Spinnaker components:</p>
-</div>
-<table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 1. Spinnaker modules</caption>
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 75%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Module</th>
-<th class="tableblock halign-left valign-top">Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">clouddriver</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Carries out all cloud-based operations, e.g. deploy, resize, destroy, etc.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">deck</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Frontend UI</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">echo</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Sends messages out over various channels like Slack and email</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">front50</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Manages long term and inflight data, e.g. pipeline definitions and currently running pipelines</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">gate</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Gateway API between the frontend (deck) and the backend services</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">igor</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Polls for CI job status, e.g. Jenkins and Travis</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">orca</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Orchestration engine used for all operations and pipelines</p></td>
-</tr>
-</tbody>
-</table>
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<i class="fa icon-note" title="Note"></i>
-</td>
-<td class="content">
-Spinnaker has other modules, but they aren&#8217;t needed for a Cloud Foundry setup. For example, there is a module dedicate
-to wrapping JAR artifacts as <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html">Amazon AMIs</a>, also known as "baking", but Cloud Foundry doesn&#8217;t need baking.
-</td>
-</tr>
-</table>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_before_installing_spinnaker">Before installing Spinnaker</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Before you actually install Spinnaker, you must decide where it will run, i.e. pick an organization and space. You
-also need the following services created as well:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>An instance of Redis in the same space. You will the name of this service later on when you enter all your settings.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_installing_spinnaker">Installing Spinnaker</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>Composed of Boot-based microservices, Spinnaker is highly customizable. However, instead of trying to get in and tune
-ever single setting, Spring Cloud Spinnaker lets you pick several options from the web page, and sets those properties
-for you.</p>
-</div>
-<div class="paragraph">
-<p>To run it, you simply need the artifact pulled down from
-<a href="https://repo.spring.io/libs-release/org/springframework/cloud/spring-cloud-spinnaker/1.0.0.BUILD-SNAPSHOT/spring-cloud-spinnaker-1.0.0.BUILD-SNAPSHOT.jar">Artifactory</a>.</p>
-</div>
-<div class="paragraph">
-<p>You can either run it directly&#8230;&#8203;</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>$ java -jar spring-cloud-spinnaker-1.0.0.BUILD-SNAPSHOT.jar</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>&#8230;&#8203;or install it in your instance of Cloud Foundry&#8230;&#8203;</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="highlight"><code>$ cf push spring-cloud-spinnaker -p spring-cloud-spinnaker-1.0.0.BUILD-SNAPSHOT.jar</code></pre>
-</div>
-</div>
-<div class="paragraph">
-<p>Once hosted, you can navigate to the site and configure your Spinnaker settings.</p>
-</div>
-<div class="sect2">
-<h3 id="_settings">Settings</h3>
-<div class="paragraph">
-<p>After installing Spring Cloud Spinnaker, whether locally or in PCF somewhere, you will be faced with a collection of
-settings. This may look like a lot, but compared to ALL the options Spinnaker comes with, this is a vast simplification.</p>
-</div>
-<div class="paragraph">
-<p>The settings are split into two parts: <strong>Target</strong> and <strong>Settings</strong>.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Target</strong> describes information needed to essentially "cf push" all the Spinnaker modules into PCF.</p>
-</li>
-<li>
-<p><strong>Settings</strong> is information used Spinnaker after installation for it to, in turn, install things on its own.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>The following settings are needed to help install Spinnaker modules.</p>
-</div>
-<table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 2. Installation Settings</caption>
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 75%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Setting</th>
-<th class="tableblock halign-left valign-top">Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Target API</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">URL for the API where Spinnaker will be installed (In PWS, it&#8217;s <a href="https://api.run.pivotal.io" class="bare">api.run.pivotal.io</a>)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Target Organization</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the organization you want Spinnaker installed in</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Target Space</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the space you want Spinnaker installed in</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Target Email</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Email to log into CF and install Spinnaker</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Target Password</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Password to log into CF and install Spinnaker</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Namespace</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Optional suffix to apply to Spinnaker module names (<strong>test</strong> will yield <strong>clouddriver-test</strong>, etc.)</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>The following information is used by Spinnaker after installation for it to, in turn, install and manage things.</p>
-</div>
-<table class="tableblock frame-all grid-all spread">
-<caption class="title">Table 3. Operations Settings</caption>
-<colgroup>
-<col style="width: 25%;">
-<col style="width: 75%;">
-</colgroup>
-<thead>
-<tr>
-<th class="tableblock halign-left valign-top">Setting</th>
-<th class="tableblock halign-left valign-top">Purpose</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Redis Service</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the Redis service clouddriver, echo, front50, and orca must bind to</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Default Org</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Organization where Spinnaker will make deployments. This is pre-filled from <strong>Target Organization</strong> up above, but can be
-overridden. (<em>Coming: Multiple organization support</em>)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Default Space</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Space where Spinnaker will make deployments. This is pre-filled from <strong>Target Space</strong> up above, but can be
-overridden. (<em>Coming: Multiple space support</em>)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Primary Account API</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">URL for the API where Spinnaker will make deployments. This is pre-filled from <strong>Target API</strong> up above, but can be
-overridden.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Primary Account Console</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">URL for App Manager (In PWS, it&#8217;s <a href="https://console.run.pivotal.io" class="bare">console.run.pivotal.io</a>)</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Account Name</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Account name for Spinnaker to use when logging into PCF</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Account Password</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Account password for Spinnaker to use when logging into PCF</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Repository Name/Access Code</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If you are pulling deployment artifacts from an http-based repository, put your username. If s3, put your access code
-</p><p class="tableblock">NOTE: If your repository isn&#8217;t secured, leave blank</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Repository Password/Secret Code</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If you are pulling deployment artifacts from an http-based repository, put your password. If s3, put your secret code
-</p><p class="tableblock"> NOTE: If your repository isn&#8217;t secured, leave blank</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Spring Config Location</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Override path location of your own set of Spinnaker configuration files.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Domain that Spinnaker will be installed into</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Primary Account Name</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the account linked to the primary space</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">All Account Names</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">List of account names Spinnaker will interact with (separated by commas). This is pre-filled from <strong>Primary Account Name</strong>,
-but can be overridden.</p></td>
-</tr>
-</tbody>
-</table>
-<div class="paragraph">
-<p>With your settings filled in, click on the Status tab.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_deploying">Deploying</h3>
-<div class="paragraph">
-<p>On the Status tab, you have the ability to check each module, or deal with them all.</p>
-</div>
-<div class="olist arabic">
-<ol class="arabic">
-<li>
-<p>Click on <strong>Deploy All</strong>.</p>
-</li>
-<li>
-<p>Sit back and sip on a cup of coffee. This will take some time.</p>
-</li>
-</ol>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_next_steps">Next Steps</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>After getting Spinnaker up and running, you should be able to access deck, the UI for Spinnaker, by visiting
-<a href="https://deck.&lt;your" class="bare">deck.&lt;your</a> domain&gt;</p>
-</div>
-</div>
-</div>
-<h1 id="debugging-installation" class="sect0">Debugging Your Installation</h1>
-<div class="openblock partintro">
-<div class="content">
-<div class="paragraph">
-<p>Having trouble with your Spinnaker install? This section is meant to help you unravel things before you open a ticket.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_logs_logs_and_more_logs">Logs, logs, and more logs</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>When you are attempting to install Spinnaker, there are logs everywhere. The key is to find the right ones.</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Spring Cloud Spinnaker can log information about the deployment process, but once completed, it doesn&#8217;t gather any more information</p>
-</li>
-<li>
-<p>Each Spinnaker module will print out its own logs.</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Assuming you installed Spinnaker with a namespace of "test", you can gather information like this&#8230;&#8203;</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>$ cf logs clouddriver-test</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>In another shell</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>$ cf restart clouddriver-test</pre>
-</div>
-</div>
-<div class="paragraph">
-<p>If you watch the "cf logs" command, you should see your copy of clouddriver start up. If there&#8217;s a major issue, it should render an error,
-especially it it&#8217;s missing settings.</p>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre>2016-09-06T11:32:31.91-0500 [API/0]      OUT Updated app with guid 39bc3f7b-ee7f-45f2-bac9-053069092c7a ({"state"=&gt;"STARTED"})
-2016-09-06T11:32:32.22-0500 [APP/0]      OUT Exit status 143
-2016-09-06T11:32:32.25-0500 [CELL/0]     OUT Creating container
-2016-09-06T11:32:32.25-0500 [CELL/0]     OUT Destroying container
-2016-09-06T11:32:32.71-0500 [CELL/0]     OUT Successfully destroyed container
-2016-09-06T11:32:33.02-0500 [CELL/0]     OUT Successfully created container
-2016-09-06T11:32:39.29-0500 [CELL/0]     OUT Starting health monitoring of container
-2016-09-06T11:32:44.71-0500 [APP/0]      OUT   .   ____          _            __ _ _
-2016-09-06T11:32:44.71-0500 [APP/0]      OUT  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
-2016-09-06T11:32:44.71-0500 [APP/0]      OUT ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
-2016-09-06T11:32:44.71-0500 [APP/0]      OUT  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
-2016-09-06T11:32:44.71-0500 [APP/0]      OUT   '  |____| .__|_| |_|_| |_\__, | / / / /
-2016-09-06T11:32:44.71-0500 [APP/0]      OUT  =========|_|==============|___/=/_/_/_/
-2016-09-06T11:32:44.71-0500 [APP/0]      OUT  :: Spring Boot ::        (v1.2.8.RELEASE)
-2016-09-06T11:32:44.85-0500 [APP/0]      OUT 2016-09-06 16:32:44.851  INFO 18 --- [           main] pertySourceApplicationContextInitializer : Adding 'cloud' PropertySource to ApplicationContext
-...
-...
-2016-09-06T11:33:06.12-0500 [APP/0]      OUT 2016-09-06 16:33:06.126  INFO 18 --- [           main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache modelProperties with key com.netflix.spinnaker.clouddriver.model.Network(true)
-2016-09-06T11:33:06.12-0500 [APP/0]      OUT 2016-09-06 16:33:06.126  INFO 18 --- [           main] s.d.spring.web.OperationsKeyGenerator    : Cache key generated: /vpcs.com.netflix.spinnaker.clouddriver.controllers.VpcController.list.DefaultGenericTypeNamingStrategy
-2016-09-06T11:33:06.12-0500 [APP/0]      OUT 2016-09-06 16:33:06.126  INFO 18 --- [           main] s.d.spring.web.caching.CachingAspect     : Caching aspect applied for cache operations with key /vpcs.com.netflix.spinnaker.clouddriver.controllers.VpcController.list.DefaultGenericTypeNamingStrategy
-2016-09-06T11:33:06.12-0500 [APP/0]      OUT 2016-09-06 16:33:06.126  INFO 18 --- [           main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method list was vpc-controller
-2016-09-06T11:33:06.12-0500 [APP/0]      OUT 2016-09-06 16:33:06.127  INFO 18 --- [           main] s.w.ClassOrApiAnnotationResourceGrouping : Group for method list was vpc-controller
-2016-09-06T11:33:06.12-0500 [APP/0]      OUT 2016-09-06 16:33:06.127  INFO 18 --- [           main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: listUsingGET_10
-2016-09-06T11:33:06.28-0500 [APP/0]      OUT 2016-09-06 16:33:06.282  INFO 18 --- [           main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
-2016-09-06T11:33:06.28-0500 [APP/0]      OUT 2016-09-06 16:33:06.286  INFO 18 --- [           main] com.netflix.spinnaker.clouddriver.Main   : Started Main in 24.791 seconds (JVM running for 26.911)
-2016-09-06T11:33:06.57-0500 [CELL/0]     OUT Container became healthy</pre>
-</div>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>In this console output, you can see that clouddriver is running with Spring Boot 1.2.8.RELEASE.</p>
-</li>
-<li>
-<p>The "Started Main in 24.791 seconds" is the indicator that the app is finally up.</p>
-</li>
-<li>
-<p>"Container became healthy" is the indicator that the platform can see the app as being up.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_environment_settings">Environment settings</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>To apply various settings, Spring Cloud Spinnaker "cf pushes" the module and then applies various environment variables settings in Cloud Foundry.
-Pay note: it&#8217;s a LOT of settings. If you see a deployment either empty of environment variables or only containing SPRING_APPLICATION_JSON, then
-something has gone terribly wrong with the deployment.</p>
-</div>
-<div class="imageblock bordered">
-<div class="content">
-<img src="images/clouddriver-env-vars.png" alt="clouddriver env vars">
-</div>
-<div class="title">Figure 1. Sample of environment variables for clouddriver in the namespace of "spring"</div>
-</div>
-<div class="paragraph">
-<p>Each of the services has a URL to reach the other relevant microservices. In this case, you can how it builds up the URL for clouddriver to speak to echo.</p>
-</div>
-<div class="paragraph">
-<p>In this specific example:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>service.echo.baseUrl = ${services.default.protocol}://${services.echo.host}${namespace}.${deck.domain}</p>
-</li>
-<li>
-<p>services.default.protocol = https</p>
-</li>
-<li>
-<p>services.echo.host = echo</p>
-</li>
-<li>
-<p>namespace = -spring</p>
-</li>
-<li>
-<p>deck.domain = cfapps.io</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>This allows the deployer to flexibly adjust each piece as needed.</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_manually_deploying_spinnaker">Manually deploying Spinnaker</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p>You may be tempted to simple grab the fat JARs for clouddriver, deck, etc. and push them yourself. Unfortunately, that&#8217;s not an option (yet).</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Each module needs its own property file. clouddriver has clouddriver.yml, igor has igor.yml, etc. But they aren&#8217;t included in the JARs pulled from
-bintray. Netflix wraps each module in a Debian package and has those files in a different location. Spring Cloud Spinnaker grabs those JARs and
-dynamically inserts such files right before pushing to your Cloud Foundry instance.</p>
-</li>
-</ul>
-</div>
-</div>
-</div>
-<h1 id="appendix" class="sect0">Appendices</h1>
-
-</div>
-</body>
+{% include project_page.html %}
 </html>
