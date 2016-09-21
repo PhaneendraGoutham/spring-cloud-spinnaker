@@ -6,3 +6,10 @@ node_modules/
 src/
 target/
 
+clouddriver
+echo
+front50
+gate
+igor
+orca
+tmp
