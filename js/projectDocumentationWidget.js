@@ -91,14 +91,8 @@ Spring.SnippetView = Backbone.View.extend({
   initialize: function () {
     var snippetType = this.options.snippetType;
     var downloadTemplate = $(document.createElement('div')).html($("#project-download-" + snippetType + "-widget-template").text());
-    var repositoryTemplate = $(document.createElement('div')).html($("#project-repository-" + snippetType + "-widget-template").text());
     this.combinedTemplate = _.template(
-    	"<div class=\"highlight\"><pre><code>" +
-        downloadTemplate.find("code:first").html() +
-        "{@ if (repository) { @}" +
-        repositoryTemplate.find("code:first").html() +
-        "{@ } @}" +
-        "</code></pre></div>"
+        downloadTemplate.html()
     );
     _.bindAll(this, "render");
   },

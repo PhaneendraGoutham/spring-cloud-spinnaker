@@ -53,12 +53,9 @@
 
     <div class="item-slider-widget js-item-slider--wrapper">
         <div class="item-slider--container">
-            <div class="item--slider js-item--slider"></div>
+            <div class="item--slider js-item--slider" style="width: 89px; margin-left: 0px;"></div>
             <div class="item js-active js-item" data-snippet-type='maven'>
-                Maven
-            </div>
-            <div class="item js-item" data-snippet-type='gradle'>
-                Gradle
+                Download
             </div>
         </div>
     </div>
@@ -66,41 +63,15 @@
 </script>
 
 
-{% if site.custom_pom_template %}
-{% capture maven_pom_template %}
-{% include pom.xml %}
-{% endcapture %}
-{% else %}
-{% capture maven_pom_template %}
-<dependencies>
-    <dependency>
-        <groupId>{@= groupId @}</groupId>
-        <artifactId>{@= artifactId @}</artifactId>
-        <version>{@= version @}</version>
-    </dependency>
-</dependencies>
-{% endcapture %}
-{% endif %}
-
 <script type="text/html" id="project-download-maven-widget-template">
-{% highlight xml %}
-{{ maven_pom_template }}
-{% endhighlight %}
-</script>
+<br/>
+<p>
+Download via: <pre>wget {@= repository.url @}/org/springframework/cloud/{@= artifactId @}/{@= version @}/{@= artifactId @}-{@= version @}.jar</pre>
 
-<script type="text/html" id="project-repository-maven-widget-template">
-{% highlight xml %}
-<repositories>
-    <repository>
-        <id>{@= repository.id @}</id>
-        <name>{@= repository.name @}</name>
-        <url>{@= repository.url @}</url>
-        <snapshots>
-            <enabled>{@= repository.snapshotsEnabled @}</enabled>
-        </snapshots>
-    </repository>
-</repositories>
-{% endhighlight %}
+Run it via: <pre>java -jar {@= artifactId @}-{@= version @}.jar</pre>
+
+Have fun!
+</p>
 </script>
 
 {% if site.custom_gradle_template %}
