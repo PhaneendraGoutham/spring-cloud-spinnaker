@@ -61,7 +61,9 @@ class Application extends React.Component {
 			'providers.cf.secondaryCredentials.api': '',
 			'providers.cf.secondaryCredentials.console': '',
 			'providers.cf.secondaryCredentials.org': '',
-			'providers.cf.secondaryCredentials.space': ''
+			'providers.cf.secondaryCredentials.space': '',
+			securedChannels: 'use.securedChannels',
+			'use.securedChannels': true
 		}
 		this.removeEntry = this.removeEntry.bind(this)
 		this.updateSetting = this.updateSetting.bind(this)

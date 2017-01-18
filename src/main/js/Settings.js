@@ -265,6 +265,10 @@ class Settings extends React.Component {
 								   name={this.props.settings.repoPassword}
 								   handleChange={this.handleChange}
 								   settings={this.props.settings} />
+					<CheckboxInput label="SSL? (self signed certs not allowed)"
+								   name={this.props.settings.securedChannels}
+								   handleChange={this.handleChange}
+								   settings={this.props.settings} />
 					<CheckboxInput label="Jenkins?"
 								   name={this.props.settings.jenkinsEnabled}
 								   handleChange={this.handleChange}

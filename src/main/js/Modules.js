@@ -158,6 +158,7 @@ class Modules extends React.Component {
 
 		data[this.props.settings.domain] = this.props.settings[this.props.settings.domain]
 		data['namespace'] = this.getNamespace()
+		data['services.default.protocol'] = this.props.settings[this.props.settings.securedChannels] ? 'https' : 'http'
 
 		let api = this.props.settings[this.props.settings.api]
 		let org = this.props.settings[this.props.settings.org]
