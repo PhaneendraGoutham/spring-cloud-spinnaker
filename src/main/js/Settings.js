@@ -24,6 +24,7 @@ class Settings extends React.Component {
 		this.currentRedisInstanceIsListed = this.currentRedisInstanceIsListed.bind(this)
 		this.loadDomains = this.loadDomains.bind(this)
 		this.listDomains = this.listDomains.bind(this)
+		this.handleOAuthChange = this.handleOAuthChange.bind(this)
 	}
 
 	/**
@@ -148,6 +149,10 @@ class Settings extends React.Component {
 
 	listDomains() {
 		return this.props.settings[this.props.settings.domains]
+	}
+
+	handleOAuthChange(e) {
+		this.props.updateOAuthProvider(e.target.value)
 	}
 
 	render() {
@@ -403,6 +408,50 @@ class Settings extends React.Component {
 							removeEntry={this.props.removeEntry}
 							updateSetting={this.props.updateSetting}
 							settings={this.props.settings} />
+						: null
+					}
+					<CheckboxInput label="OAuth?"
+								   name={this.props.settings.oauthEnabled}
+								   handleChange={this.handleChange}
+								   settings={this.props.settings} />
+					{ this.props.settings[this.props.settings.oauthEnabled] ?
+						<li className='control-group'>
+							<label className='layout__item u-1/2-lap-and-up u-1/4-desk'>OAuth Provider</label>
+							<div className='layout__item u-1/2-lap-and-up u-3/4-desk'>
+								<label className='layout__item u-1/2-lap-and-up u-1/4-desk'>
+									<input type="radio"
+										   value="googleOAuth"
+										   name="oauthProvider"
+										   checked={this.props.settings.oauthProvider === 'googleOAuth'}
+										   onChange={this.handleOAuthChange}/>
+									<a href="https://console.developers.google.com/apis/credentials" target="_blank">Google OAuth</a>
+								</label>
+								<label className='layout__item u-1/2-lap-and-up u-1/4-desk'>
+									<input type="radio"
+										   value="githubOAuth"
+										   name="oauthProvider"
+										   checked={this.props.settings.oauthProvider === 'githubOAuth'}
+										   onChange={this.handleOAuthChange}/>
+									<a href="https://github.com/settings/developers" target="_blank">Github OAuth</a>
+								</label>
+							</div>
+						</li>
+						: null
+					}
+					{ this.props.settings[this.props.settings.oauthEnabled] ?
+						<TextInput label="OAuth2 clientId"
+								   placeHolder="Client id for your oauth2 provider"
+								   name={this.props.settings.clientId}
+								   handleChange={this.handleChange}
+								   settings={this.props.settings} />
+						: null
+					}
+					{ this.props.settings[this.props.settings.oauthEnabled] ?
+						<PasswordInput label="OAuth2 secret"
+									   placeHolder="Client secret for your oauth2 provider"
+									   name={this.props.settings.clientSecret}
+									   handleChange={this.handleChange}
+									   settings={this.props.settings} />
 						: null
 					}
 					<li className='control-group'>

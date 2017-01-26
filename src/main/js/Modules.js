@@ -119,6 +119,7 @@ class Modules extends React.Component {
 			data[this.props.settings.primaryAccount] = this.props.settings[this.props.settings.primaryAccount]
 			data[this.props.settings.primaryAccounts] = this.props.settings[this.props.settings.primaryAccounts]
 			data['providers.cf.defaultOrg'] = this.props.settings['providers.cf.defaultOrg']
+			data[this.props.settings.oauthEnabled] = this.props.settings[this.props.settings.oauthEnabled]
 		}
 
 		if (moduleDetails.deploymentId.startsWith('echo')) {
@@ -138,6 +139,14 @@ class Modules extends React.Component {
 						data[key] = this.props.settings[key]
 					}
 				})
+			}
+		}
+
+		if (moduleDetails.deploymentId.startsWith('gate')) {
+			if (this.props.settings[this.props.settings.oauthEnabled]) {
+				data[this.props.settings.clientId] = this.props.settings[this.props.settings.clientId]
+				data[this.props.settings.clientSecret] = this.props.settings[this.props.settings.clientSecret]
+				data['spring.profiles.active'] = 'local,' + this.props.settings.oauthProvider
 			}
 		}
 

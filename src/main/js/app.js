@@ -63,7 +63,11 @@ class Application extends React.Component {
 			'providers.cf.secondaryCredentials.org': '',
 			'providers.cf.secondaryCredentials.space': '',
 			securedChannels: 'use.securedChannels',
-			'use.securedChannels': true
+			'use.securedChannels': true,
+			oauthEnabled: 'oauth.enabled',
+			clientId: 'spring.oauth2.client.clientId',
+			clientSecret: 'spring.oauth2.client.clientSecret',
+			oauthProvider: 'googleOAuth'
 		}
 		this.removeEntry = this.removeEntry.bind(this)
 		this.updateSetting = this.updateSetting.bind(this)
@@ -72,6 +76,7 @@ class Application extends React.Component {
 		this.tabStatus = this.tabStatus.bind(this)
 		this.settingsStatus = this.settingsStatus.bind(this)
 		this.isActive = this.isActive.bind(this)
+		this.updateOAuthProvider = this.updateOAuthProvider.bind(this)
 	}
 
 	removeEntry(key) {
@@ -176,6 +181,10 @@ class Application extends React.Component {
 		return ((this.state.active === tab) ? ' active' : '')
 	}
 
+	updateOAuthProvider(value) {
+		this.setState({oauthProvider: value})
+	}
+
 	tabStatus(tab) {
 		return 'tabs__item' + this.isActive(tab)
 	}
@@ -207,7 +216,8 @@ class Application extends React.Component {
 						<h1>Spinnaker Settings</h1>
 						<Settings updateSetting={this.updateSetting}
 								  removeEntry={this.removeEntry}
-								  settings={this.state} />
+								  settings={this.state}
+								  updateOAuthProvider={this.updateOAuthProvider} />
 					</div>
 
 					<div id="status" className={this.settingsStatus('status')}>

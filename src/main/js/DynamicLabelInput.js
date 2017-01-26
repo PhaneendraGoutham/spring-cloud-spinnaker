@@ -49,7 +49,6 @@ class DynamicLabelInput extends React.Component {
 					{this.props.prefix}
 				</label>
 				<input className='layout__item u-1/2-palm u-1/2-lap-and-up u-1/4-desk' ref="thisLabel" type="text"
-					   value={this.props.label}
 					   onChange={this.handleKeyChange}
 					   value={this.props.label}
 					   onFocus={this.moveCaretAtEnd} />

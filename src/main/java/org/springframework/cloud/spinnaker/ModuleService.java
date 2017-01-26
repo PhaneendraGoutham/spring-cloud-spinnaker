@@ -61,7 +61,7 @@ import org.springframework.cloud.deployer.resource.maven.MavenProperties;
 import org.springframework.cloud.deployer.spi.app.AppStatus;
 import org.springframework.cloud.deployer.spi.app.DeploymentState;
 import org.springframework.cloud.deployer.spi.cloudfoundry.CloudFoundryAppDeployer;
-import org.springframework.cloud.deployer.spi.cloudfoundry.CloudFoundryConnectionProperties;
+import org.springframework.cloud.deployer.spi.cloudfoundry.CloudFoundryDeploymentProperties;
 import org.springframework.cloud.deployer.spi.core.AppDefinition;
 import org.springframework.cloud.deployer.spi.core.AppDeploymentRequest;
 import org.springframework.cloud.spinnaker.filemanager.TempFileManager;
@@ -162,23 +162,23 @@ public class ModuleService {
 		final Map<String, String> properties = getProperties(spinnakerConfiguration, details, data);
 
 		final Map<String, String> deploymentProperties = new HashMap<>();
-		deploymentProperties.put(CloudFoundryConnectionProperties.CLOUDFOUNDRY_PROPERTIES + ".useSpringApplicationJson", "false");
+		deploymentProperties.put(CloudFoundryDeploymentProperties.USE_SPRING_APPLICATION_JSON_KEY, "false");
 		deploymentProperties.put(
-			CloudFoundryConnectionProperties.CLOUDFOUNDRY_PROPERTIES + ".services",
+			CloudFoundryDeploymentProperties.SERVICES_PROPERTY_KEY,
 				Stream.concat(
 						details.getServices().stream(),
 						StringUtils.commaDelimitedListToSet(
-								data.getOrDefault(CloudFoundryConnectionProperties.CLOUDFOUNDRY_PROPERTIES + ".services", "")).stream())
+								data.getOrDefault(CloudFoundryDeploymentProperties.SERVICES_PROPERTY_KEY, "")).stream())
 					.collect(Collectors.joining(",")));
 
 		Optional.ofNullable(details.getProperties().get("buildpack"))
-				.ifPresent(buildpack -> deploymentProperties.put(CloudFoundryConnectionProperties.CLOUDFOUNDRY_PROPERTIES + ".buildpack", buildpack));
+				.ifPresent(buildpack -> deploymentProperties.put(CloudFoundryDeploymentProperties.BUILDPACK_PROPERTY_KEY, buildpack));
 
 		Optional.ofNullable(details.getProperties().get("memory"))
-			.ifPresent(memory -> deploymentProperties.put(CloudFoundryConnectionProperties.CLOUDFOUNDRY_PROPERTIES + ".memory", memory));
+			.ifPresent(memory -> deploymentProperties.put(CloudFoundryDeploymentProperties.MEMORY_PROPERTY_KEY, memory));
 
 		Optional.ofNullable(details.getProperties().get("disk"))
-			.ifPresent(disk -> deploymentProperties.put(CloudFoundryConnectionProperties.CLOUDFOUNDRY_PROPERTIES + ".disk", disk));
+			.ifPresent(disk -> deploymentProperties.put(CloudFoundryDeploymentProperties.DISK_PROPERTY_KEY, disk));
 
 		// Load up on Spring profiles!
 		Set<String> profiles = StringUtils.commaDelimitedListToSet(properties.getOrDefault("spring.profiles.active", ""));
@@ -384,13 +384,14 @@ public class ModuleService {
 
 									String customSettingsJs = StreamUtils.copyToString(ctx.getResource("classpath:settings.js").getInputStream(), Charset.defaultCharset());
 
-									customSettingsJs = customSettingsJs.replace("{gate}", "https://gate" + data.getOrDefault("namespace", "") + "." + data.getOrDefault("deck.domain", DEFAULT_DOMAIN));
+									customSettingsJs = customSettingsJs.replace("{gate}", data.getOrDefault("services.default.protocol", "http") + "://gate" + data.getOrDefault("namespace", "") + "." + data.getOrDefault("deck.domain", DEFAULT_DOMAIN));
 									customSettingsJs = customSettingsJs.replace("{primaryAccount}", data.getOrDefault("deck.primaryAccount", DEFAULT_PRIMARY_ACCOUNT));
 									customSettingsJs = customSettingsJs.replace("{defaultOrg}", data.getOrDefault("providers.cf.defaultOrg", ""));
 									customSettingsJs = customSettingsJs.replace("'{primaryAccounts}'", "[" + StringUtils.collectionToCommaDelimitedString(
 										Arrays.stream(data.getOrDefault("deck.primaryAccounts", DEFAULT_PRIMARY_ACCOUNT).split(","))
 											.map(account -> "'" + account + "'")
 											.collect(Collectors.toList())) + "]");
+									customSettingsJs = customSettingsJs.replace("{oauth.enabled}", data.getOrDefault("oauth.enabled", "false"));
 
 									InputStream modifiedStream = new ByteArrayInputStream((
 										originalSettingsJs.substring(0, start) +

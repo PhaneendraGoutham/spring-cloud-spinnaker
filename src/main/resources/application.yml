@@ -20,7 +20,12 @@ spinnaker:
     - name: front50
       artifact: org.springframework.cloud:front50-app:1.0.0.BUILD-SNAPSHOT
     - name: gate
-      artifact: org.springframework.cloud:gate-app:1.0.0.BUILD-SNAPSHOT
+      artifact: org.springframework.cloud:gate-app:1.0.1.BUILD-SNAPSHOT
+      properties:
+        services.deck.baseUrl: ${spinnaker.baseUrl}
+        services.deck.auth.enabled: true
+        spring.oauth2.client.preEstablishedRedirectUri: ${services.gate.baseUrl}/login
+        spring.oauth2.client.useCurrentUri: false
     - name: igor
       artifact: org.springframework.cloud:igor-app:1.0.0.BUILD-SNAPSHOT
       properties:
