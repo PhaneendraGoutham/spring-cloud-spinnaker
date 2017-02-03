@@ -15,6 +15,7 @@
  */
 package org.springframework.cloud.spinnaker.filemanager;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,7 +26,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.springframework.cloud.spinnaker.ModuleDetails;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.PathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -45,7 +45,7 @@ public class TempFileManager {
 	}
 
 
-	public Resource createTempFile(ModuleDetails details, ByteArrayResource streamedArtifact) {
+	public Resource createTempFile(ModuleDetails details, ByteArrayOutputStream streamedArtifact) {
 
 		return this.cachedJars.computeIfAbsent(getKey(details), key -> {
 
@@ -53,7 +53,7 @@ public class TempFileManager {
 			try {
 				path = Files.createTempFile(details.getName()+"-app", ".jar");
 				log.info("Dumping JAR contents to " + path);
-				Files.write(path, streamedArtifact.getByteArray());
+				Files.write(path, streamedArtifact.toByteArray());
 				path.toFile().deleteOnExit();
 			} catch (IOException e) {
 				throw new RuntimeException(e);

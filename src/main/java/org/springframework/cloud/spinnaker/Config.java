@@ -15,19 +15,26 @@
  */
 package org.springframework.cloud.spinnaker;
 
+import java.io.File;
+
 import org.springframework.boot.actuate.metrics.CounterService;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.deployer.resource.maven.MavenProperties;
+import org.springframework.cloud.deployer.resource.maven.MavenResource;
+import org.springframework.cloud.deployer.resource.maven.MavenResourceLoader;
+import org.springframework.cloud.deployer.resource.support.DelegatingResourceLoader;
 import org.springframework.cloud.spinnaker.filemanager.TempFileManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.ResourceLoader;
 
 /**
  * @author Greg Turnquist
  */
 @Configuration
-@EnableConfigurationProperties({SpinnakerConfiguration.class})
+@EnableConfigurationProperties({SpinnakerConfiguration.class, CloudFoundryServerConfigurationProperties.class})
 public class Config {
 
 	@Bean
@@ -36,8 +43,24 @@ public class Config {
 								ApplicationContext ctx,
 								CounterService counterService,
 								TempFileManager fileManager,
-								MavenProperties mavenProperties) {
-		return new ModuleService(spinnakerConfiguration, appDeployerFactoryBean, ctx, counterService, fileManager, mavenProperties);
+								MavenProperties mavenProperties,
+								LRUCleaningResourceLoader resourceLoader) {
+		return new ModuleService(spinnakerConfiguration, appDeployerFactoryBean, ctx, counterService, fileManager, mavenProperties, resourceLoader);
+	}
+
+	@Bean
+	MavenResourceLoader mavenResourceLoader(MavenProperties mavenProperties) {
+		return new MavenResourceLoader(mavenProperties);
+	}
+
+	@Bean
+	LRUCleaningResourceLoader lruCleaningResourceLoader(MavenResourceLoader resourceLoader,
+														CloudFoundryServerConfigurationProperties serverConfigurationProperties,
+														MavenProperties mavenProperties) {
+		float fRatio = serverConfigurationProperties.getFreeDiskSpacePercentage() / 100F;
+		File repositoryCache = new File(mavenProperties.getLocalRepository());
+		repositoryCache.deleteOnExit();
+		return new LRUCleaningResourceLoader(resourceLoader, fRatio, repositoryCache);
 	}
 
 	@Bean

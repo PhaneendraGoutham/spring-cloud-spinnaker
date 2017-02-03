@@ -54,7 +54,6 @@ import reactor.util.function.Tuples;
 
 import org.springframework.boot.actuate.metrics.CounterService;
 import org.springframework.cloud.deployer.resource.maven.MavenProperties;
-import org.springframework.cloud.deployer.resource.maven.MavenResource;
 import org.springframework.cloud.deployer.spi.app.AppStatus;
 import org.springframework.cloud.deployer.spi.app.DeploymentState;
 import org.springframework.cloud.deployer.spi.cloudfoundry.CloudFoundryAppDeployer;
@@ -62,8 +61,8 @@ import org.springframework.cloud.deployer.spi.cloudfoundry.CloudFoundryDeploymen
 import org.springframework.cloud.deployer.spi.core.AppDefinition;
 import org.springframework.cloud.deployer.spi.core.AppDeploymentRequest;
 import org.springframework.cloud.spinnaker.filemanager.TempFileManager;
-import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
@@ -98,12 +97,15 @@ public class ModuleService {
 
 	private final MavenProperties mavenProperties;
 
+	private final ResourceLoader resourceLoader;
+
 	public ModuleService(SpinnakerConfiguration spinnakerConfiguration,
 						 CloudFoundryAppDeployerFactory appDeployerFactory,
 						 ResourcePatternResolver ctx,
 						 CounterService counterService,
 						 TempFileManager fileManager,
-						 MavenProperties mavenProperties) {
+						 MavenProperties mavenProperties,
+						 ResourceLoader resourceLoader) {
 
 		this.spinnakerConfiguration = spinnakerConfiguration;
 		this.appDeployerFactory = appDeployerFactory;
@@ -111,6 +113,7 @@ public class ModuleService {
 		this.counterService = counterService;
 		this.fileManager = fileManager;
 		this.mavenProperties = mavenProperties;
+		this.resourceLoader = resourceLoader;
 	}
 
 	/**
@@ -325,9 +328,9 @@ public class ModuleService {
 								  Map<String, String> data) throws IOException {
 
 		if (details.getName().equals("deck")) {
-			return this.fileManager.createTempFile(details, findDeckMavenArtifact(details, data));
+			return findDeckMavenArtifact(details, data);
 		} else {
-			return this.fileManager.createTempFile(details, findMavenArtifact(details, ctx));
+			return findMavenArtifact(details, ctx);
 		}
 	}
 
@@ -338,11 +341,12 @@ public class ModuleService {
 	 * @param data
 	 * @return
 	 */
-	private ByteArrayResource findDeckMavenArtifact(ModuleDetails details,
+	private Resource findDeckMavenArtifact(ModuleDetails details,
 										   Map<String, String> data) {
 
 		log.info("Fetching " + details.getArtifact() + " from the web...");
-		MavenResource mavenResource = MavenResource.parse(details.getArtifact(), this.mavenProperties);
+//		MavenResource mavenResource = MavenResource.parse(details.getArtifact(), this.mavenProperties);
+		Resource mavenResource = this.resourceLoader.getResource("maven:" + details.getArtifact());
 
 		ByteArrayOutputStream newDeck = new ByteArrayOutputStream();
 
@@ -414,23 +418,23 @@ public class ModuleService {
 			throw new RuntimeException(e);
 		}
 
-		return new ByteArrayResource(newDeck.toByteArray());
+		return this.fileManager.createTempFile(details, newDeck);
 	}
 
 	/**
 	 * Fetch an artifact from one of the maven repositories listed in the properties.
 	 * Add any local {name}-*.yml files.
-	 * Convert it into a {@link ByteArrayResource}.
 	 *
 	 * TODO: Remove adding local {name}-*.yml files when SPRING_APPLICATION_JSON support can be used.
 	 *
 	 * @param details
 	 * @return
 	 */
-	private ByteArrayResource findMavenArtifact(ModuleDetails details, ResourcePatternResolver ctx) {
+	private Resource findMavenArtifact(ModuleDetails details, ResourcePatternResolver ctx) {
 
 		log.info("Fetching " + details.getArtifact() + " from the web...");
-		MavenResource mavenResource = MavenResource.parse(details.getArtifact(), this.mavenProperties);
+//		MavenResource mavenResource = MavenResource.parse(details.getArtifact(), this.mavenProperties);
+		Resource mavenResource = this.resourceLoader.getResource("maven:" + details.getArtifact());
 
 		ByteArrayOutputStream downloadedArtifact = new ByteArrayOutputStream();
 
@@ -462,7 +466,7 @@ public class ModuleService {
 			throw new RuntimeException(e);
 		}
 
-		return new ByteArrayResource(downloadedArtifact.toByteArray());
+		return this.fileManager.createTempFile(details, downloadedArtifact);
 	}
 
 	/**

@@ -87,6 +87,11 @@
 			<artifactId>spring-cloud-deployer-resource-maven</artifactId>
 			<version>${spring-cloud-deployer-spi.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-deployer-resource-support</artifactId>
+			<version>${spring-cloud-deployer-spi.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

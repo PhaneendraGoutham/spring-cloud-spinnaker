@@ -79,6 +79,9 @@ public class ModuleServiceTests {
 	@Autowired
 	MavenProperties mavenProperties;
 
+	@Autowired
+	LRUCleaningResourceLoader resourceLoader;
+
 	@Rule public ExpectedException thrown = none();
 
 	@Test
@@ -283,8 +286,9 @@ public class ModuleServiceTests {
 									ApplicationContext ctx,
 									CounterService counterService,
 									TempFileManager fileManager,
-									MavenProperties mavenProperties) {
-			return new ModuleService(spinnakerConfiguration, appDeployerFactoryBean, mockPatternResolver(ctx), counterService, fileManager, mavenProperties);
+									MavenProperties mavenProperties,
+									LRUCleaningResourceLoader resourceLoader) {
+			return new ModuleService(spinnakerConfiguration, appDeployerFactoryBean, mockPatternResolver(ctx), counterService, fileManager, mavenProperties, resourceLoader);
 		}
 
 		@Bean
@@ -296,6 +300,13 @@ public class ModuleServiceTests {
 				throw new RuntimeException(e);
 			}
 			return mockResolver;
+		}
+
+		@Bean
+		LRUCleaningResourceLoader lruCleaningResourceLoader(ApplicationContext ctx) {
+			LRUCleaningResourceLoader mockResourceLoader = mock(LRUCleaningResourceLoader.class);
+			when(mockResourceLoader.getResource(any())).thenReturn(ctx.getResource("classpath:/echo-web-test.jar"));
+			return mockResourceLoader;
 		}
 
 		@Bean
