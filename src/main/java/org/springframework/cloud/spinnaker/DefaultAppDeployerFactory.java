@@ -71,16 +71,18 @@ public class DefaultAppDeployerFactory implements CloudFoundryAppDeployerFactory
 		CloudFoundryOperations operations = getOperations(email, password, api, org, space);
 
 		return new CloudFoundryAppDeployer(
-				new CloudFoundryConnectionProperties(),
-				new CloudFoundryDeploymentProperties(),
-				operations, client, appName -> appName);
+			new CloudFoundryConnectionProperties(),
+			new CloudFoundryDeploymentProperties(),
+			operations,
+			client,
+			appName -> appName);
 	}
 
 	private ConnectionContext connectionContext(URL apiEndpoint) {
 		return DefaultConnectionContext.builder()
 				.apiHost(apiEndpoint.getHost())
 				.skipSslValidation(true)
-				.sslHandshakeTimeout(Duration.ofSeconds(60))
+				.sslHandshakeTimeout(Duration.ofSeconds(120))
 				.build();
 	}
 

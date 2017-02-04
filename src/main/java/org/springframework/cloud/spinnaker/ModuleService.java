@@ -43,10 +43,14 @@ import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import org.cloudfoundry.client.CloudFoundryClient;
+import org.cloudfoundry.client.v2.applications.ListApplicationsRequest;
+import org.cloudfoundry.client.v2.spaces.GetSpaceRequest;
 import org.cloudfoundry.operations.CloudFoundryOperations;
 import org.cloudfoundry.operations.applications.DeleteApplicationRequest;
 import org.cloudfoundry.operations.applications.StartApplicationRequest;
 import org.cloudfoundry.operations.applications.StopApplicationRequest;
+import org.cloudfoundry.util.PaginationUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
@@ -57,7 +61,7 @@ import org.springframework.cloud.deployer.resource.maven.MavenProperties;
 import org.springframework.cloud.deployer.spi.app.AppStatus;
 import org.springframework.cloud.deployer.spi.app.DeploymentState;
 import org.springframework.cloud.deployer.spi.cloudfoundry.CloudFoundryAppDeployer;
-import org.springframework.cloud.deployer.spi.cloudfoundry.CloudFoundryDeploymentProperties;
+import org.springframework.cloud.deployer.spi.cloudfoundry.CloudFoundryConnectionProperties;
 import org.springframework.cloud.deployer.spi.core.AppDefinition;
 import org.springframework.cloud.deployer.spi.core.AppDeploymentRequest;
 import org.springframework.cloud.spinnaker.filemanager.TempFileManager;
@@ -158,23 +162,23 @@ public class ModuleService {
 		final Map<String, String> properties = getProperties(spinnakerConfiguration, details, data);
 
 		final Map<String, String> deploymentProperties = new HashMap<>();
-		deploymentProperties.put(CloudFoundryDeploymentProperties.USE_SPRING_APPLICATION_JSON_KEY, "false");
+		deploymentProperties.put(CloudFoundryConnectionProperties.CLOUDFOUNDRY_PROPERTIES + ".useSpringApplicationJson", "false");
 		deploymentProperties.put(
-				CloudFoundryDeploymentProperties.SERVICES_PROPERTY_KEY,
+			CloudFoundryConnectionProperties.CLOUDFOUNDRY_PROPERTIES + ".services",
 				Stream.concat(
 						details.getServices().stream(),
 						StringUtils.commaDelimitedListToSet(
-								data.getOrDefault(CloudFoundryDeploymentProperties.SERVICES_PROPERTY_KEY, "")).stream())
+								data.getOrDefault(CloudFoundryConnectionProperties.CLOUDFOUNDRY_PROPERTIES + ".services", "")).stream())
 					.collect(Collectors.joining(",")));
 
 		Optional.ofNullable(details.getProperties().get("buildpack"))
-				.ifPresent(buildpack -> deploymentProperties.put(CloudFoundryDeploymentProperties.BUILDPACK_PROPERTY_KEY, buildpack));
+				.ifPresent(buildpack -> deploymentProperties.put(CloudFoundryConnectionProperties.CLOUDFOUNDRY_PROPERTIES + ".buildpack", buildpack));
 
 		Optional.ofNullable(details.getProperties().get("memory"))
-			.ifPresent(memory -> deploymentProperties.put(CloudFoundryDeploymentProperties.MEMORY_PROPERTY_KEY, memory));
+			.ifPresent(memory -> deploymentProperties.put(CloudFoundryConnectionProperties.CLOUDFOUNDRY_PROPERTIES + ".memory", memory));
 
 		Optional.ofNullable(details.getProperties().get("disk"))
-			.ifPresent(disk -> deploymentProperties.put(CloudFoundryDeploymentProperties.DISK_PROPERTY_KEY, disk));
+			.ifPresent(disk -> deploymentProperties.put(CloudFoundryConnectionProperties.CLOUDFOUNDRY_PROPERTIES + ".disk", disk));
 
 		// Load up on Spring profiles!
 		Set<String> profiles = StringUtils.commaDelimitedListToSet(properties.getOrDefault("spring.profiles.active", ""));
@@ -534,4 +538,23 @@ public class ModuleService {
 			});
 	}
 
+	public String link(String module, URL api, String email, String password) {
+
+		CloudFoundryClient client = appDeployerFactory.getCloudFoundryClient(email, password, api);
+
+		return PaginationUtils.requestClientV2Resources(page -> client.applicationsV2()
+				.list(ListApplicationsRequest.builder()
+					.name(module)
+					.build()))
+				.flatMap(applicationResource -> client.spaces()
+					.get(GetSpaceRequest.builder()
+						.spaceId(applicationResource.getEntity().getSpaceId())
+						.build())
+					.map(spaceResponse -> Tuples.of(spaceResponse, applicationResource)))
+				.map(function((spaceResponse, applicationResource) ->
+					"/organizations/" + spaceResponse.getEntity().getOrganizationId() +
+					"/spaces/" + spaceResponse.getMetadata().getId() +
+					"/applications/" + applicationResource.getMetadata().getId()))
+				.blockFirst();
+	}
 }

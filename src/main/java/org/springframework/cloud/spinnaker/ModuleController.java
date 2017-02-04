@@ -64,7 +64,8 @@ public class ModuleController {
 					appStatus,
 					linkTo(methodOn(ModuleController.class).status(appStatus.getDeploymentId(), api, org, space, email, password, namespace)).withSelfRel(),
 					linkTo(methodOn(ModuleController.class).start(appStatus.getDeploymentId(), api, org, space, email, password, namespace)).withRel("start"),
-					linkTo(methodOn(ModuleController.class).stop(appStatus.getDeploymentId(), api, org, space, email, password, namespace)).withRel("stop")))
+					linkTo(methodOn(ModuleController.class).stop(appStatus.getDeploymentId(), api, org, space, email, password, namespace)).withRel("stop"),
+					linkTo(methodOn(ModuleController.class).link(appStatus.getDeploymentId(), api, org, space, email, password, namespace)).withRel("link")))
 				.collect(Collectors.toList()),
 				linkTo(methodOn(ModuleController.class).statuses(api, org, space, email, password, namespace)).withSelfRel()
 		));
@@ -85,8 +86,9 @@ public class ModuleController {
 			linkTo(methodOn(ModuleController.class).statuses(api, org, space, email, password, namespace)).withRel("all"),
 			linkTo(methodOn(ApiController.class).root(api, org, space, email, password, namespace)).withRel("root"),
 			linkTo(methodOn(ModuleController.class).start(module, api, org, space, email, password, namespace)).withRel("start"),
-			linkTo(methodOn(ModuleController.class).stop(module, api, org, space, email, password, namespace)).withRel("stop")
-		));
+			linkTo(methodOn(ModuleController.class).stop(module, api, org, space, email, password, namespace)).withRel("stop"),
+			linkTo(methodOn(ModuleController.class).link(module, api, org, space, email, password, namespace)).withRel("link")
+			));
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = ApiController.BASE_PATH + "/modules/{module}")
@@ -144,6 +146,25 @@ public class ModuleController {
 		moduleService.undeploy(module, api, org, space, email, password, namespace);
 
 		return ResponseEntity.noContent().build();
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = ApiController.BASE_PATH + "/modules/{module}/link")
+	public ResponseEntity<?> link(@PathVariable String module,
+								  @RequestHeader("api") URL api,
+								  @RequestHeader("org") String org,
+								  @RequestHeader("space") String space,
+								  @RequestHeader("email") String email,
+								  @RequestHeader("password") String password,
+								  @RequestHeader(value = "namespace", defaultValue = "") String namespace) {
+
+		log.debug("Fetching link for " + module + " on the server...");
+
+		return ResponseEntity.ok(new Resource<>(
+			moduleService.link(module, api, email, password),
+			linkTo(methodOn(ModuleController.class).link(module, api, org, space, email, password, namespace)).withSelfRel(),
+			linkTo(methodOn(ModuleController.class).status(module, api, org, space, email, password, namespace)).withRel("module"),
+			linkTo(methodOn(ApiController.class).root(api, org, space, email, password, namespace)).withRel("root")
+		));
 	}
 
 }
