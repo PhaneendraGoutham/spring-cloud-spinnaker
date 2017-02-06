@@ -16,20 +16,10 @@ Requirements:
 * Either a Mac or Unix based system. (Building the Spinnaker components on Windows won't work, and Cygwin has yet to be tested)
 * Java 8 SDK
 * git
+* 8GB of RAM + 4GB of disk when running on CF
 
 === Building Spinnaker
 
-Before you can run this application, you have to build Spinnaker's modules.
-
-1. Clone this repository
-1. Run `git submodule init`
-1. Run `git submodule update --remote` (only execute this if you have a fresh clone, otherwise it will update the versions)
-1. Run `./build_spinnaker.sh all`
-+
-WARNING: Do NOT interrupt `build_spinnaker.sh` in mid process. Due to the nature of Spinnaker's nebula gradle plugin, the
-components cannot be built inside a git submodule. The script temporarily moves each module into /tmp, builds it, then
-moves it back. Any interruptions would require reseting the state of your cloned repository.
-+
 1. Run `./mvnw clean package`
 1. Run `cf push spinnaker-deployer -p target/spring-cloud-spinnaker-<version>.jar`
 
