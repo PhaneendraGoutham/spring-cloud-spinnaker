@@ -70,6 +70,16 @@ Download via: <pre>wget {@= repository.url @}/org/springframework/cloud/{@= arti
 
 Run it via: <pre>java -jar {@= artifactId @}-{@= version @}.jar</pre>
 
+Or use our online copy at {@ if (version.indexOf('RELEASE') !== -1) { @}
+<a href="https://spinnaker-deployer-release.cfapps.io/" target="_blank">Pivotal Web Services</a>
+{@ } else if (version.indexOf('RC') !== -1) { @}
+<a href="https://spinnaker-deployer-releasecandidate.cfapps.io/" target="_blank">Pivotal Web Services</a>
+{@ } else if (version.indexOf('SNAPSHOT') !== -1) { @}
+<a href="https://spinnaker-deployer-snapshot.cfapps.io/" target="_blank">Pivotal Web Services</a>
+{@ } else { @}
+<a href="https://spinnaker-deployer-milestone.cfapps.io/" target="_blank">Pivotal Web Services</a>
+{@ } @} to install it to any public facing instance of Cloud Foundry.<br/>
+<br/>
 Have fun!
 </p>
 </script>
