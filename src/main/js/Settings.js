@@ -159,21 +159,19 @@ class Settings extends React.Component {
 		return (
 			<div>
 				<ul className="layout">
-					{ this.props.settings[this.props.settings.pickRedisFromDropdown] ?
-						this.props.settings.redisLoading ?
-							<Spinner />
-							:
-							<DropdownInput label="Redis Service"
-										   name={this.props.settings.services}
-										   handleChange={this.handleChange}
-										   data={this.listRedisServices}
-										   settings={this.props.settings}/>
+					<li className='control-group'>
+						<label className='layout__item u-1/2-lap-and-up u-1/4-desk'></label>
+						<button className='layout__item u-1/2-lap-and-up u-3/4-desk'
+								onClick={this.loadDomains}>Refresh list of domains</button>
+					</li>
+					{this.props.settings.domainsLoading ?
+						<Spinner />
 						:
-						<TextInput label="Redis Service"
-									 placeHolder="Name of Redis service to bind to"
-									 name={this.props.settings.services}
-									 handleChange={this.handleChange}
-									 settings={this.props.settings}/>
+						<DropdownInput label="Domain"
+									   name={this.props.settings.domain}
+									   handleChange={this.handleChange}
+									   data={this.listDomains}
+									   settings={this.props.settings}/>
 					}
 					{ this.props.settings[this.props.settings.pickRedisFromDropdown] ?
 						<li className='control-group'>
@@ -190,9 +188,25 @@ class Settings extends React.Component {
 									onClick={this.toggleOn}>Pick from a list</button>
 						</li>
 					}
+					{ this.props.settings[this.props.settings.pickRedisFromDropdown] ?
+						this.props.settings.redisLoading ?
+							<Spinner />
+							:
+							<DropdownInput label="Redis Service"
+										   name={this.props.settings.services}
+										   handleChange={this.handleChange}
+										   data={this.listRedisServices}
+										   settings={this.props.settings}/>
+						:
+						<TextInput label="Redis Service"
+								   placeHolder="Name of Redis service to bind to"
+								   name={this.props.settings.services}
+								   handleChange={this.handleChange}
+								   settings={this.props.settings}/>
+					}
 					<TextInput label="Primary Account Name"
 							   placeHolder="Name of the primary account (e.g. prod)"
-							   name='deck.primaryAccount'
+							   name={this.props.settings.primaryAccount}
 							   handleChange={this.handleChange}
 							   settings={this.props.settings} />
 					<TextInput label="Default Org"
@@ -454,26 +468,20 @@ class Settings extends React.Component {
 									   settings={this.props.settings} />
 						: null
 					}
-					<li className='control-group'>
-						<label className='layout__item u-1/2-lap-and-up u-1/4-desk'></label>
-						<button className='layout__item u-1/2-lap-and-up u-3/4-desk'
-								onClick={this.loadDomains}>Refresh list of domains</button>
-					</li>
-					{this.props.settings.domainsLoading ?
-						<Spinner />
-						:
-						<DropdownInput label="Domain"
-									   name={this.props.settings.domain}
-									   handleChange={this.handleChange}
-									   data={this.listDomains}
-									   settings={this.props.settings}/>
-					}
 					<TextInput label="All Account Names (separated by commas)"
 							   placeHolder="Listing of all accounts (e.g. prod,staging,dev)"
 							   name='deck.primaryAccounts'
 							   handleChange={this.handleChange}
 							   settings={this.props.settings} />
 				</ul>
+				{this.props.requiredFieldFilledOut() ?
+					<div className='layout'>
+						<label className='layout__item u-1/2-lap-and-up u-1/4-desk'></label>
+						<button className='layout__item u-1/2-lap-and-up u-3/4-desk' onClick={this.props.handleStatus}>Install >>></button>
+					</div>
+					:
+					null
+				}
 				<br/>
 				<br/>
 				<br/>

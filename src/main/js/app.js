@@ -7,6 +7,9 @@ const SpinnakerSettings = require('./SpinnakerSettings')
 const Settings = require('./Settings')
 const Modules = require('./Modules')
 
+const client = require('./client')
+const follow = require('./follow')
+
 class Application extends React.Component {
 
 	constructor(props) {
@@ -67,8 +70,24 @@ class Application extends React.Component {
 			oauthEnabled: 'oauth.enabled',
 			clientId: 'spring.oauth2.client.clientId',
 			clientSecret: 'spring.oauth2.client.clientSecret',
-			oauthProvider: 'googleOAuth'
+			oauthProvider: 'googleOAuth',
+			modules: {},
+			links: {}
 		}
+
+		// Fixed constant stuffed inside the state
+		this.state['required'] = [
+			this.state.api,
+			this.state.email,
+			this.state.password,
+			this.state.org,
+			this.state.space,
+			this.state.services,
+			this.state.primaryAccount,
+			this.state.domain,
+			'all.namespace'
+		]
+
 		this.removeEntry = this.removeEntry.bind(this)
 		this.updateSetting = this.updateSetting.bind(this)
 		this.handleSettings = this.handleSettings.bind(this)
@@ -77,6 +96,10 @@ class Application extends React.Component {
 		this.settingsStatus = this.settingsStatus.bind(this)
 		this.isActive = this.isActive.bind(this)
 		this.updateOAuthProvider = this.updateOAuthProvider.bind(this)
+		this.getNamespace = this.getNamespace.bind(this)
+		this.updateModules = this.updateModules.bind(this)
+		this.findModules = this.findModules.bind(this)
+		this.requiredFieldsFilledOut = this.requiredFieldsFilledOut.bind(this)
 	}
 
 	removeEntry(key) {
@@ -174,7 +197,9 @@ class Application extends React.Component {
 
 	handleStatus(e) {
 		e.preventDefault()
+		this.findModules()
 		this.setState({active: 'status'})
+		window.scrollTo(0, 0)
 	}
 
 	isActive(tab) {
@@ -193,6 +218,49 @@ class Application extends React.Component {
 		return 'content wrapper' + this.isActive(tab)
 	}
 
+	getNamespace() {
+		if (this.state['all.namespace'] !== undefined && this.state['all.namespace'] !== '') {
+			return '-' + this.state['all.namespace']
+		} else {
+			return ''
+		}
+	}
+
+	updateModules(newModules, newLinks) {
+		this.setState({modules: newModules, links: newLinks})
+	}
+
+	findModules() {
+		let api = this.state[this.state.api]
+		let org = this.state[this.state.org]
+		let space = this.state[this.state.space]
+		let email = this.state[this.state.email]
+		let password = this.state[this.state.password]
+		let namespace = this.getNamespace()
+
+		let root = '/api'
+
+		let credentials = {
+			api: api,
+			org: org,
+			space: space,
+			email: email,
+			password: password,
+			namespace: (namespace !== '' ? namespace : '')
+		}
+
+		follow(client, root, ['modules'], credentials).done(response => {
+			this.updateModules(response.entity._embedded.appStatuses.reduce((prev, curr) => {
+				prev[curr.deploymentId] = curr
+				return prev
+			}, {}), this.state.links)
+		})
+	}
+
+	requiredFieldsFilledOut() {
+		return this.state.required.filter(field => this.state[field]).length === this.state.required.length
+	}
+
 	render() {
 		return (
 			<div>
@@ -201,9 +269,15 @@ class Application extends React.Component {
 						<li className={this.tabStatus('settings')} onClick={this.handleSettings}>
 							<a id="settings-link" className="tabs__link">Settings</a>
 						</li>
-						<li className={this.tabStatus('status')} onClick={this.handleStatus}>
-							<a id="status-link" className="tabs__link">Status</a>
-						</li>
+						{this.requiredFieldsFilledOut() ?
+							<li className={this.tabStatus('status')} onClick={this.handleStatus}>
+								<a id="status-link" className="tabs__link">Install >>></a>
+							</li>
+							:
+							<li className={this.tabStatus('status') + ' inactive'}>
+								<a className="tabs__link">Install (complete *required fields)</a>
+							</li>
+						}
 					</ul>
 				</section>
 
@@ -217,12 +291,17 @@ class Application extends React.Component {
 						<Settings updateSetting={this.updateSetting}
 								  removeEntry={this.removeEntry}
 								  settings={this.state}
-								  updateOAuthProvider={this.updateOAuthProvider} />
+								  updateOAuthProvider={this.updateOAuthProvider}
+								  requiredFieldFilledOut={this.requiredFieldsFilledOut}
+								  handleStatus={this.handleStatus} />
 					</div>
 
 					<div id="status" className={this.settingsStatus('status')}>
-						<h1>Spinnaker Status</h1>
-						<Modules settings={this.state} />
+						<h1>Installation Status</h1>
+						<Modules settings={this.state}
+								 getNamespace={this.getNamespace}
+								 updateModules={this.updateModules}
+								 findModules={this.findModules} />
 					</div>
 				</section>
 			</div>

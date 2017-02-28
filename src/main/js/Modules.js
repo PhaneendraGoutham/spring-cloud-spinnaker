@@ -1,28 +1,20 @@
 'use strict'
 
 const React = require('react')
-const ReactDOM = require('react-dom')
-
 const client = require('./client')
-const when = require('when')
-const follow = require('./follow')
-
 const Module = require('./Module')
-
+import { Circle } from 'better-react-spinkit'
 
 class Modules extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {modules: {}, links: {}} // TODO: Split up state between each module
-		this.findModules = this.findModules.bind(this)
 		this.refresh = this.refresh.bind(this)
 		this.deploy = this.deploy.bind(this)
 		this.undeploy = this.undeploy.bind(this)
 		this.start = this.start.bind(this)
 		this.stop = this.stop.bind(this)
 		this.lookUpLink = this.lookUpLink.bind(this)
-		this.getNamespace = this.getNamespace.bind(this)
 		this.handleRefreshAll = this.handleRefreshAll.bind(this)
 		this.handleDeployAll = this.handleDeployAll.bind(this)
 		this.handleUndeployAll = this.handleUndeployAll.bind(this)
@@ -31,40 +23,13 @@ class Modules extends React.Component {
 		this.handleLinkAll = this.handleLinkAll.bind(this)
 	}
 
-	findModules() {
-		let api = this.props.settings[this.props.settings.api]
-		let org = this.props.settings[this.props.settings.org]
-		let space = this.props.settings[this.props.settings.space]
-		let email = this.props.settings[this.props.settings.email]
-		let password = this.props.settings[this.props.settings.password]
-		let namespace = this.getNamespace()
-
-		let root = '/api'
-
-		let credentials = {
-			api: api,
-			org: org,
-			space: space,
-			email: email,
-			password: password,
-			namespace: (namespace !== '' ? namespace : '')
-		}
-
-		follow(client, root, ['modules'], credentials).done(response => {
-			this.setState({modules: response.entity._embedded.appStatuses.reduce((prev, curr) => {
-				prev[curr.deploymentId] = curr
-				return prev
-			}, {}), links: this.state.links})
-		})
-	}
-
 	refresh(moduleDetails) {
 		let api = this.props.settings[this.props.settings.api]
 		let org = this.props.settings[this.props.settings.org]
 		let space = this.props.settings[this.props.settings.space]
 		let email = this.props.settings[this.props.settings.email]
 		let password = this.props.settings[this.props.settings.password]
-		let namespace = this.getNamespace()
+		let namespace = this.props.getNamespace()
 
 		let credentials = {
 			api: api,
@@ -75,9 +40,9 @@ class Modules extends React.Component {
 			namespace: (namespace !== '' ? namespace : '')
 		}
 		client({method: 'GET', path: moduleDetails._links.self.href, headers: credentials}).done(response => {
-			let newModules = this.state.modules
+			let newModules = this.props.settings.modules
 			newModules[response.entity.deploymentId] = response.entity
-			this.setState({modules: newModules, links: this.state.links})
+			this.props.updateModules(newModules, this.props.settings.links)
 		})
 	}
 
@@ -168,7 +133,7 @@ class Modules extends React.Component {
 		}
 
 		data[this.props.settings.domain] = this.props.settings[this.props.settings.domain]
-		data['namespace'] = this.getNamespace()
+		data['namespace'] = this.props.getNamespace()
 		data['services.default.protocol'] = this.props.settings[this.props.settings.securedChannels] ? 'https' : 'http'
 
 		let api = this.props.settings[this.props.settings.api]
@@ -176,7 +141,7 @@ class Modules extends React.Component {
 		let space = this.props.settings[this.props.settings.space]
 		let email = this.props.settings[this.props.settings.email]
 		let password = this.props.settings[this.props.settings.password]
-		let namespace = this.getNamespace()
+		let namespace = this.props.getNamespace()
 
 		let headers = {
 			api: api,
@@ -204,7 +169,7 @@ class Modules extends React.Component {
 		let space = this.props.settings[this.props.settings.space]
 		let email = this.props.settings[this.props.settings.email]
 		let password = this.props.settings[this.props.settings.password]
-		let namespace = this.getNamespace()
+		let namespace = this.props.getNamespace()
 
 		let headers = {
 			api: api,
@@ -228,7 +193,7 @@ class Modules extends React.Component {
 		let space = this.props.settings[this.props.settings.space]
 		let email = this.props.settings[this.props.settings.email]
 		let password = this.props.settings[this.props.settings.password]
-		let namespace = this.getNamespace()
+		let namespace = this.props.getNamespace()
 
 		let headers = {
 			api: api,
@@ -252,7 +217,7 @@ class Modules extends React.Component {
 		let space = this.props.settings[this.props.settings.space]
 		let email = this.props.settings[this.props.settings.email]
 		let password = this.props.settings[this.props.settings.password]
-		let namespace = this.getNamespace()
+		let namespace = this.props.getNamespace()
 
 		let headers = {
 			api: api,
@@ -276,7 +241,7 @@ class Modules extends React.Component {
 		let space = this.props.settings[this.props.settings.space]
 		let email = this.props.settings[this.props.settings.email]
 		let password = this.props.settings[this.props.settings.password]
-		let namespace = this.getNamespace()
+		let namespace = this.props.getNamespace()
 
 		let headers = {
 			api: api,
@@ -288,84 +253,68 @@ class Modules extends React.Component {
 		}
 
 		client({method: 'GET', path: moduleDetails._links.link.href, headers: headers}).done(response => {
-			let newLinks = this.state.links
+			let newLinks = this.props.settings.links
 			newLinks[moduleDetails.deploymentId] = this.props.settings[this.props.settings.console] + response.entity.content
-			this.setState({modules: this.state.modules, links: newLinks})
+			this.props.updateModules(this.props.settings.modules, newLinks)
 			console.log(response)
 		})
 	}
 
-	getNamespace() {
-		if (this.props.settings['all.namespace'] !== undefined && this.props.settings['all.namespace'] !== '') {
-			return '-' + this.props.settings['all.namespace']
-		} else {
-			return ''
-		}
-	}
-
 	handleRefreshAll(e) {
 		e.preventDefault()
-		Object.keys(this.state.modules).map(key => {
-			this.refresh(this.state.modules[key])
+		Object.keys(this.props.settings.modules).map(key => {
+			this.refresh(this.props.settings.modules[key])
 		})
 	}
 
 	handleDeployAll(e) {
 		e.preventDefault()
-		Object.keys(this.state.modules).map(key => {
-			this.deploy(this.state.modules[key])
+		Object.keys(this.props.settings.modules).map(key => {
+			this.deploy(this.props.settings.modules[key])
 		})
 	}
 
 	handleUndeployAll(e) {
 		e.preventDefault()
-		Object.keys(this.state.modules).map(key => {
-			this.undeploy(this.state.modules[key])
+		Object.keys(this.props.settings.modules).map(key => {
+			this.undeploy(this.props.settings.modules[key])
 		})
 	}
 
 	handleStartAll(e) {
 		e.preventDefault()
-		Object.keys(this.state.modules).map(key => {
-			this.start(this.state.modules[key])
+		Object.keys(this.props.settings.modules).map(key => {
+			this.start(this.props.settings.modules[key])
 		})
 	}
 
 	handleStopAll(e) {
 		e.preventDefault()
-		Object.keys(this.state.modules).map(key => {
-			this.stop(this.state.modules[key])
+		Object.keys(this.props.settings.modules).map(key => {
+			this.stop(this.props.settings.modules[key])
 		})
 	}
 
 	handleLinkAll(e) {
 		e.preventDefault()
-		Object.keys(this.state.modules).map(key => {
-			this.lookUpLink(this.state.modules[key])
+		Object.keys(this.props.settings.modules).map(key => {
+			this.lookUpLink(this.props.settings.modules[key])
 		})
 	}
 
 	render() {
-		let modules = Object.keys(this.state.modules).map(name =>
-			<Module key={name}
-					details={this.state.modules[name]}
-					link={this.state.links[name]}
-					refresh={this.refresh}
-					deploy={this.deploy}
-					undeploy={this.undeploy}
-					start={this.start}
-					stop={this.stop}
-					lookUpLink={this.lookUpLink} />)
-
-		return (
-			<table className="table table--cosy table--rows">
-				<tbody>
-				<tr>
-					<td></td><td></td>
-					<td><button onClick={this.findModules}>Load</button></td>
-					<td></td><td></td><td></td><td></td><td></td>
-				</tr>
-				{modules}
+		let tbody = Object.keys(this.props.settings.modules).length > 0 ?
+			(<tbody>
+				{Object.keys(this.props.settings.modules).map(name =>
+					<Module key={name}
+							details={this.props.settings.modules[name]}
+							link={Object.keys(this.props.settings.links).length > 0 ? this.props.settings.links[name] : null}
+							refresh={this.refresh}
+							deploy={this.deploy}
+							undeploy={this.undeploy}
+							start={this.start}
+							stop={this.stop}
+							lookUpLink={this.lookUpLink}/>)}
 				<tr>
 					<td></td><td></td>
 					<td><button onClick={this.handleRefreshAll}>Refresh All</button></td>
@@ -375,7 +324,17 @@ class Modules extends React.Component {
 					<td><button onClick={this.handleStopAll}>Stop All</button></td>
 					<td><button onClick={this.handleLinkAll}>Link All</button></td>
 				</tr>
-				</tbody>
+			</tbody>)
+			:
+			(<tbody>
+				<tr>
+					<td colSpan="8"><Circle size={100}/></td>
+				</tr>
+			</tbody>)
+
+		return (
+			<table className="table table--cosy table--rows">
+				{tbody}
 			</table>
 		)
 	}

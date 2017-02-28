@@ -75,6 +75,12 @@ $inuit-enable-table--cosy: true;
     text-decoration: none;
   }
 
+  .#{$inuit-tabs-namespace}tabs__item.inactive, .#{$inuit-tabs-namespace}tabs__item.inactive:hover {
+    background: $gray-5;
+    color: $gray-7;
+    box-shadow: none;
+  }
+
 }
 
 $inuit-widths-columns-responsive: (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20);
@@ -254,3 +260,7 @@ tbody tr:nth-child(odd) {
 }
 
 .close:hover { background: #00d9ff; }
+
+.required {
+  color: $red-2;
+}

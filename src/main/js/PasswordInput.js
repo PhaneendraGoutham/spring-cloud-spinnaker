@@ -10,8 +10,13 @@ class PasswordInput extends React.Component {
 
 	render() {
 		return (<li className='control-group'>
-			<label className='layout__item u-1/2-lap-and-up u-1/4-desk'>{this.props.label}</label>
-			<input className='layout__item u-1/2-lap-and-up u-3/4-desk' type="password"
+			{this.props.settings.required.includes(this.props.name) && !this.props.settings[this.props.name] ?
+				<label className='layout__item u-1/2-lap-and-up u-1/4-desk'>{this.props.label} <span className='required'>(*required)</span></label>
+				:
+				<label className='layout__item u-1/2-lap-and-up u-1/4-desk'>{this.props.label}</label>
+			}
+			<input className='layout__item u-1/2-lap-and-up u-3/4-desk'
+				   type="password"
 				   placeholder={this.props.placeHolder}
 				   name={this.props.name}
 				   onChange={this.props.handleChange}

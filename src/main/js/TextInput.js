@@ -13,7 +13,11 @@ class TextInput extends React.Component {
 		let inputLayout = (this.props.inputLayout) ? this.props.inputLayout : 'layout__item u-1/2-lap-and-up u-3/4-desk'
 		let optional = (this.props.optional) ? this.props.optional : null
 		return (<li className='control-group'>
-			<label className={labelLayout}>{this.props.label}</label>
+			{this.props.settings.required.includes(this.props.name) && !this.props.settings[this.props.name] ?
+				<label className={labelLayout}>{this.props.label} <span className='required'>(*required)</span></label>
+				:
+				<label className={labelLayout}>{this.props.label}</label>
+			}
 			{optional}
 			<input className={inputLayout} type="text"
 				   placeholder={this.props.placeHolder}
